@@ -48,17 +48,17 @@ function createBookingItemsArray(totalItems) {
 createBookingItemsArray(totalAds);
 
 // creates Pins
-var mapPins = document.querySelector('.map__pins');
-var fragment = document.createDocumentFragment();
-for (var i = 0; i < totalAds; i++) {
-  var addButton = document.createElement('button');
-  addButton.setAttribute('class', 'map__pin');
-  addButton.setAttribute('style', 'left:' + bookingItems[i].location.x + 'px;' + 'top:' + bookingItems[i].location.y + 'px;');
-  addButton.innerHTML = '<img width="40" height="40" draggable="false">';
-  addButton.querySelector('img').setAttribute('src', bookingItems[i]. author.avatar);
-  fragment.appendChild(addButton);
-}
-mapPins.appendChild(fragment);
+//var mapPins = document.querySelector('.map__pins');
+//var fragment = document.createDocumentFragment();
+//for (var i = 0; i < totalAds; i++) {
+  //var addButton = document.createElement('button');
+  //addButton.setAttribute('class', 'map__pin');
+  //addButton.setAttribute('style', 'left:' + bookingItems[i].location.x + 'px;' + 'top:' + bookingItems[i].location.y + 'px;');
+  //addButton.innerHTML = '<img width="40" height="40" draggable="false">';
+  //addButton.querySelector('img').setAttribute('src', bookingItems[i]. author.avatar);
+  //fragment.appendChild(addButton);
+//}
+//mapPins.appendChild(fragment);
 
 // function returns russian language;
 function russianLanguage(russianType) {
@@ -73,7 +73,7 @@ function russianLanguage(russianType) {
 
 // removes '.map--faded' class from the map.
 var userPopup = document.querySelector('.map');
-userPopup.classList.remove('map--faded');
+// userPopup.classList.remove('map--faded');
 
 var card = document.body.appendChild(template.cloneNode(true)); // new card element from template
 var popupUl = card.querySelector('.popup__features');
@@ -85,7 +85,7 @@ nodeParent.insertBefore(card, before); // inserts card before .map__filters-cont
 
 card.querySelector('h3').textContent = bookingItems[0].offer.title;
 card.querySelector('small').textContent = bookingItems[0].offer.address;
-card.querySelector('.popup__price').textContent = bookingItems[0].offer.price + '&#x20bd;/ночь';
+card.querySelector('.popup__price').textContent = bookingItems[0].offer.price + '\u20bd/ночь';
 card.querySelector('h4').textContent = russianLanguage(bookingItems[0].offer.type);
 card.getElementsByTagName('p')[2].textContent = bookingItems[0].offer.rooms + ' комнаты для ' + bookingItems[0].offer.guests + ' гостей';
 card.getElementsByTagName('p')[3].textContent = 'Заезд после ' + bookingItems[0].offer.checkin + ', выезд до ' + bookingItems[0].offer.checkout;
@@ -97,4 +97,54 @@ popupUl.innerHTML = '';
 for (var j = 0; j < 6; j++) {
   var list = '<li class="feature feature--' + bookingItems[j].offer.features + '"></li>';
   popupUl.insertAdjacentHTML('afterbegin', list);
+}
+
+// adds disable for form__submit
+var form = document.querySelector('.map__filters');
+form.classList.add('notice__form--disabled');
+var fieldsetFilter = document.querySelector('.map__filter-set');
+fieldsetFilter.disabled = true;
+var fieldsetNotice = document.querySelector('.notice__header');
+fieldsetNotice.disabled = true;
+// disable all fieldsets
+var formElement = document.querySelectorAll('.form__element');
+for (var k = 0; k < formElement.length; k++) {
+  formElement[k].disabled = true;
+}
+// После того, как на блоке map__pin--main произойдет событие mouseup, форма и карта должны активироваться:
+var mainPin = document.querySelector('.map__pin--main');
+var mainPinFunction = mainPin.addEventListener('mouseup', function () {
+  userPopup.classList.remove('map--faded');
+  for (k = 0; k < formElement.length; k++) {
+    formElement[k].disabled = false;
+  }
+  var mapPins = document.querySelector('.map__pins');
+  var fragment = document.createDocumentFragment();
+  for (var i = 0; i < totalAds; i++) {
+    var addButton = document.createElement('button');
+    addButton.setAttribute('class', 'map__pin');
+    addButton.setAttribute('style', 'left:' + bookingItems[i].location.x + 'px;' + 'top:' + bookingItems[i].location.y + 'px;');
+    addButton.innerHTML = '<img width="40" height="40" draggable="false">';
+    addButton.querySelector('img').setAttribute('src', bookingItems[i]. author.avatar);
+    fragment.appendChild(addButton);
+  }
+  mapPins.appendChild(fragment);
+});
+
+// не знаю работает или нет :(
+removeEventListener('mouseup', mainPinFunction);
+
+
+var popup = document.querySelector('.popup');
+popup.style.visibility = 'hidden';
+
+var anyMapPin = document.querySelector('.map__pin');
+
+
+anyMapPin.addEventListener('click', function () {
+  anyMapPin.classList.add('map__pin--active');
+});
+
+if (anyMapPin.classList.contains('map__pin--active')) {
+  popup.style.visibility = 'visible';
 }
