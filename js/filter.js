@@ -45,7 +45,7 @@
   };
 
   window.filter = {
-    filterCards: filterCards,
+    cards: filterCards,
     formFilter: formFilter
   };
 })();

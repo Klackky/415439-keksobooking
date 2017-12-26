@@ -7,13 +7,13 @@
   var ADDRESS_VALUE_X = 630;
   var ADDRESS_VALUE_Y = 447;
   // arrays for validation
-  var accomodationType = [
+  var accomodationTypes = [
     'bungalo',
     'flat',
     'house',
     'palace'
   ];
-  var price = [
+  var prices = [
     '0',
     '1000',
     '5000',
@@ -25,18 +25,18 @@
     '3',
     '0'
   ];
-  var roomsNumber = [
+  var numberOfRooms = [
     '1',
     '2',
     '3',
     '100'
   ];
-  var checkin = [
+  var checkinTimes = [
     '12:00',
     '13:00',
     '14:00'
   ];
-  var checkout = [
+  var checkoutTimes = [
     '12:00',
     '13:00',
     '14:00'
@@ -57,19 +57,26 @@
   }
 
   // activates form
-  window.form = {
-    activateForm: function () {
-      fieldsetNotice.disabled = false;
-      fieldsetFilter.disabled = false;
-      noticeForm.classList.remove('notice__form--disabled');
-      form.classList.remove('notice__form--disabled');
-      for (k = 0; k < formElement.length; k++) {
-        formElement[k].disabled = false;
-      }
+
+  var activateForm = function () {
+    fieldsetNotice.disabled = false;
+    fieldsetFilter.disabled = false;
+    noticeForm.classList.remove('notice__form--disabled');
+    form.classList.remove('notice__form--disabled');
+    for (k = 0; k < formElement.length; k++) {
+      formElement[k].disabled = false;
     }
   };
 
+
   // Validation ///////////////
+  // sync all fields from the beginning
+  var synchronizeFields = function () {
+    window.synchronizeFields(timeIn, timeOut, checkinTimes, checkoutTimes, syncValues);
+    window.synchronizeFields(timeOut, timeIn, checkinTimes, checkoutTimes, syncValues);
+    window.synchronizeFields(typeSelect, priceSelect, accomodationTypes, prices, syncValueWithMin);
+    window.synchronizeFields(roomsSelect, guestsSelect, numberOfRooms, capacity, syncValues);
+  };
   // 4.2.2.1 sync for checkin and checkout
   var timeIn = document.querySelector('#timein');
   var timeOut = document.querySelector('#timeout');
@@ -78,10 +85,10 @@
     element.value = value;
   };
   timeIn.addEventListener('change', function () {
-    window.synchronizeFields(timeIn, timeOut, checkin, checkout, syncValues);
+    window.synchronizeFields(timeIn, timeOut, checkinTimes, checkoutTimes, syncValues);
   });
   timeOut.addEventListener('change', function () {
-    window.synchronizeFields(timeOut, timeIn, checkin, checkout, syncValues);
+    window.synchronizeFields(timeOut, timeIn, checkinTimes, checkoutTimes, syncValues);
   });
 
 
@@ -92,14 +99,14 @@
     element.min = value;
   };
   typeSelect.addEventListener('change', function () {
-    window.synchronizeFields(typeSelect, priceSelect, accomodationType, price, syncValueWithMin);
+    window.synchronizeFields(typeSelect, priceSelect, accomodationTypes, prices, syncValueWithMin);
   });
 
   // 4.2.2.3 sync for rooms and guests
   var roomsSelect = noticeForm.querySelector('#room_number');
   var guestsSelect = noticeForm.querySelector('#capacity');
   roomsSelect.addEventListener('change', function () {
-    window.synchronizeFields(roomsSelect, guestsSelect, roomsNumber, capacity, syncValues);
+    window.synchronizeFields(roomsSelect, guestsSelect, numberOfRooms, capacity, syncValues);
   });
   var titleForm = noticeForm.querySelector('#title');
   var priceForm = noticeForm.querySelector('#price');
@@ -155,7 +162,7 @@
     }
   };
 
-  priceForm.addEventListener('invalid', checkPriceValidityHandler);
+  priceForm.addEventListener('change', checkPriceValidityHandler);
   /**
   * function resetForm resets valid form and shows popup for limited time.
   */
@@ -164,6 +171,7 @@
     window.map.mainPin.style.left = MAIN_PIN_RESET_LEFT;
     window.map.mainPin.style.top = MAIN_PIN_RESET_TOP;
     window.map.address.value = 'x: ' + ADDRESS_VALUE_X + ', y: ' + ADDRESS_VALUE_Y;
+    synchronizeFields();
     var sentPopup = document.createElement('div');
     sentPopup.classList.add = 'sentPopup';
     sentPopup.style = 'z-index: 100; margin: 0 auto; padding:10px; text-align:center; outline: 3px solid orangered; left:40%; top:27%; position: fixed; background-color:white;';
@@ -180,4 +188,8 @@
     event.preventDefault();
     window.backend.save(new FormData(noticeForm), resetForm, window.backend.errorMessage);
   });
+  window.form = {
+    syncFields: synchronizeFields,
+    activateForm: activateForm
+  };
 })();

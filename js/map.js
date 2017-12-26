@@ -18,6 +18,7 @@
   var coordinateX = mainPin.offsetLeft;
   var coordinateY = mainPin.offsetTop;
   var cardsArray = [];
+  addressInput.readOnly = true;
   addressInput.value = 'x: ' + (coordinateX + MAIN_PIN_WIDTH / 2) + ', y: ' + (coordinateY + MAIN_PIN_HEIGHT + ARROW_HEIGHT);
   /**
   * function  activateMap form and map activates on mouseup
@@ -28,6 +29,7 @@
     mainPin.removeEventListener('keydown', activateMapOnEnterHandler);
     mainPin.removeEventListener('mouseup', activateMapHandler);
     window.form.activateForm();
+    window.form.syncFields();
   }
   // drag and drop
   mainPin.addEventListener('mousedown', function (evt) {
@@ -102,7 +104,7 @@
     filterForm.addEventListener('change', function () {
       window.debounce(window.pin.renderPins(cardsArray));
     });
-    window.pin.renderPins(cardsArray);
+    window.pin.render(cardsArray);
   };
   window.map = {
     mainPin: mainPin,

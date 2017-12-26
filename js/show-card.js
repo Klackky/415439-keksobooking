@@ -4,10 +4,11 @@
   /**
   * function closeAdHandler removes popup
   */
-  function closeAdHandler() {
+  var closeAdHandler = function () {
     var popup = document.querySelector('.popup');
     popup.parentNode.removeChild(popup);
-  }
+    document.removeEventListener('keydown', closePopupOnEscHandler);
+  };
   /**
   * function closePopupOnEscHandler closes popup when esc pressed
   * @param {event} evt esc pressed
