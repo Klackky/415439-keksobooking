@@ -36,7 +36,7 @@
     for (var k in features) {
       if (features.hasOwnProperty(k)) {
         var feature = features[k];
-        if (feature.checked && card.offer.features.includes(feature.value) !== true) {
+        if (feature.checked && card.offer.features.includes(feature.value)) {
           return false;
         }
       }

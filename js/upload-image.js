@@ -15,7 +15,7 @@
         return fileName.endsWith(item);
       });
 
-      if (matches && typeof cb === 'function') {
+      if (matches) {
         var reader = new FileReader();
 
         reader.addEventListener('load', function () {

@@ -3,6 +3,7 @@
   var MAX_PINS_NUMBER = 5;
   var PIN_Y = 40; // pin height in px
   var fragment = document.createDocumentFragment();
+  var template = document.querySelector('template');
   var selectedPin;
   /**
   * function createPins function creates Pin.
@@ -11,7 +12,6 @@
   * @return {element} created pin
   */
   var createPin = function (newAd, i) {
-    var template = document.querySelector('template');
     var pinTemplate = template.content.querySelector('.map__pin');
     var pin = pinTemplate.cloneNode(true);
     var image = pin.querySelector('img');

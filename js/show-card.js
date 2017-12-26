@@ -1,11 +1,11 @@
 'use strict';
 (function () {
   var ESC_KEYCODE = 27;
+  var popup = document.querySelector('.popup');
   /**
   * function closeAdHandler removes popup
   */
   var closeAdHandler = function () {
-    var popup = document.querySelector('.popup');
     popup.parentNode.removeChild(popup);
     document.removeEventListener('keydown', closePopupOnEscHandler);
   };
@@ -15,7 +15,6 @@
   */
   var closePopupOnEscHandler = function (evt) {
     if (evt.keyCode === ESC_KEYCODE) {
-      var popup = document.querySelector('.popup');
       popup.parentNode.removeChild(popup);
       document.removeEventListener('keydown', closePopupOnEscHandler);
     }
