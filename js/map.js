@@ -102,7 +102,7 @@
     cardsArray = data;
     var filterForm = document.querySelector('.map__filters');
     filterForm.addEventListener('change', function () {
-      window.debounce(window.pin.renderPins(cardsArray));
+      window.debounce(window.pin.render(cardsArray));
     });
     window.pin.render(cardsArray);
   };
