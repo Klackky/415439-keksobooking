@@ -20,7 +20,7 @@
   var coordinateY = mainPin.offsetTop;
   var cardsArray = [];
   addressInput.readOnly = true;
-  addressInput.value = 'x: ' + (coordinateX + MAIN_PIN_WIDTH / 2) + ', y: ' + (coordinateY - OFFSET + MAIN_PIN_HEIGHT + ARROW_HEIGHT);
+  addressInput.value = 'x: ' + (coordinateX + MAIN_PIN_WIDTH / 2) + ', y: ' + (coordinateY + MAIN_PIN_HEIGHT + ARROW_HEIGHT);
   /**
   * function  activateMap form and map activates on mouseup
   */
