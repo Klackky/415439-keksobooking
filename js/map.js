@@ -5,6 +5,7 @@
     min: 100,
     max: 500
   };
+  var OFFSET = 72;
   var LOCATION_X_LIMITS = {
     min: 40,
     max: 1150
@@ -19,7 +20,7 @@
   var coordinateY = mainPin.offsetTop;
   var cardsArray = [];
   addressInput.readOnly = true;
-  addressInput.value = 'x: ' + (coordinateX + MAIN_PIN_WIDTH / 2) + ', y: ' + (coordinateY + MAIN_PIN_HEIGHT + ARROW_HEIGHT);
+  addressInput.value = 'x: ' + (coordinateX + MAIN_PIN_WIDTH / 2) + ', y: ' + (coordinateY - OFFSET + MAIN_PIN_HEIGHT + ARROW_HEIGHT);
   /**
   * function  activateMap form and map activates on mouseup
   */
@@ -72,7 +73,7 @@
       }
 
       // coordinates goes to input 'address'
-      addressInput.value = 'x: ' + (coordinateX + MAIN_PIN_WIDTH / 2) + ', y: ' + (coordinateY + MAIN_PIN_HEIGHT + ARROW_HEIGHT);
+      addressInput.value = 'x: ' + (coordinateX + MAIN_PIN_WIDTH / 2) + ', y: ' + (coordinateY - OFFSET + MAIN_PIN_HEIGHT + ARROW_HEIGHT);
     };
 
     var mouseUpHandler = function (upEvt) {

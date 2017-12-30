@@ -106,7 +106,7 @@
   var roomsSelect = noticeForm.querySelector('#room_number');
   var guestsSelect = noticeForm.querySelector('#capacity');
   roomsSelect.addEventListener('change', function () {
-    window.synchronizeFields(roomsSelect, guestsSelect, numberOfRooms, capacity, syncValues);
+    window.synchronizeFields(roomsSelect, guestsSelect, numberOfRooms, capacity, syncRoomsAndGuests);
   });
   var titleForm = noticeForm.querySelector('#title');
   var priceForm = noticeForm.querySelector('#price');
@@ -163,6 +163,25 @@
   };
 
   priceForm.addEventListener('change', checkPriceValidityHandler);
+
+  /**
+  * function syncRoomsAndGuests syncs rooms with guests
+  * @param {Node} guestsOption selected field
+  * @param {string} numberOfGuests value
+  */
+  var syncRoomsAndGuests = function (guestsOption, numberOfGuests) {
+    guestsOption.value = numberOfGuests;
+    var currentValue = guestsOption.value;
+    Array.from(guestsOption.options).forEach(function (option) {
+      option.disabled = true;
+      if (option.value === currentValue && currentValue === '0') { // not for guests
+        option.disabled = false;
+      }
+      if (option.value <= currentValue && option.value !== '0') {
+        option.disabled = false;
+      }
+    });
+  };
   /**
   * function resetForm resets valid form and shows popup for limited time.
   */
@@ -180,7 +199,7 @@
     sentPopup.textContent = 'Форма успешно отправлена!';
     document.body.appendChild(sentPopup);
     setTimeout(function () {
-      sentPopup.style.display = 'none';
+      document.body.removeChild(sentPopup);
     }, RESET_FORM_TIMEOUT);
   };
   // form saves data on server

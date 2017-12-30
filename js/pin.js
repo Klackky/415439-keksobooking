@@ -40,12 +40,9 @@
   var renderPins = function (cardsArray) {
     removePins();
     closeOldPopup();
-    var filteredCards = []; // array for filtered cards
-    for (var i = 0; i < cardsArray.length; i++) {
-      if (window.filter.cards(cardsArray[i])) {
-        filteredCards.push(cardsArray[i]);
-      }
-    }
+    var filteredCards = cardsArray.filter(function (el) {
+      return window.filter.cards(el);
+    });
     filteredCards.slice(0, MAX_PINS_NUMBER).forEach(function (pin, index) {
       fragment.appendChild(createPin(pin, index));
     });
