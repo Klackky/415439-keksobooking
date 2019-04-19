@@ -1,8 +1,8 @@
 'use strict';
 
 (function () {
-  var URL_LOAD = 'https://1510.dump.academy/keksobooking/data';
-  var URL_SAVE = 'https://1510.dump.academy/keksobooking';
+  var URL_LOAD = 'https://js.dump.academy/keksobooking/data';
+  var URL_SAVE = 'https://js.dump.academy/keksobooking';
   var STATUS_OK = 200;
   var STATUS_BAD_REQUEST = 400;
   var STATUS_PAGE_NOT_FOUND = 404;
